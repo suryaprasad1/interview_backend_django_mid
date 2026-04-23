@@ -119,7 +119,8 @@ from django.urls import path
 from .views import InventoryCreateView
 
 urlpatterns = [
-    path('inventory/create/', InventoryCreateView.as_view()),
+    path('inventory/', InventoryListCreateAPIView.as_view()),
+    path('inventory/<int:pk>/', InventoryDetailAPIView.as_view()),
 ]
 ```
 ---
@@ -127,6 +128,7 @@ urlpatterns = [
 # Step 6: Test API
 
 POST /inventory/create/
+
 ```
 {
   "name": "Inception",
@@ -138,7 +140,16 @@ POST /inventory/create/
 }
 ```
 ---
+```
+| Method | Endpoint      | Action   |
+| ------ | ------------- | -------- |
+| GET    | /inventory/   | list all |
+| POST   | /inventory/   | create   |
+| GET    | /inventory/1/ | retrieve |
+| PUT    | /inventory/1/ | update   |
+| DELETE | /inventory/1/ | delete   |
 
+```
 # Summary
 
 ✔ Model  
