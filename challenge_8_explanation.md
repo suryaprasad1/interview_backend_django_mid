@@ -54,13 +54,62 @@ class InventorySerializer(serializers.ModelSerializer):
 
 # Step 4: Create API View
 ```
-from rest_framework.generics import CreateAPIView
 from .models import Inventory
 from .serializers import InventorySerializer
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
 
-class InventoryCreateView(CreateAPIView):
-    queryset = Inventory.objects.all()
-    serializer_class = InventorySerializer
+class InventoryListCreateAPIView(APIView):
+
+    # GET → list all inventory
+    def get(self, request):
+        items = Inventory.objects.all().order_by('id')
+        serializer = InventorySerializer(items, many=True)
+        return Response(serializer.data)
+
+    # POST → create inventory item
+    def post(self, request):
+        serializer = InventorySerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class InventoryDetailAPIView(APIView):
+
+    # GET single item
+    def get(self, request, pk):
+        try:
+            item = Inventory.objects.get(pk=pk)
+        except Inventory.DoesNotExist:
+            return Response({"error": "Not found"}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = InventorySerializer(item)
+        return Response(serializer.data)
+
+    # PUT → full update
+    def put(self, request, pk):
+        try:
+            item = Inventory.objects.get(pk=pk)
+        except Inventory.DoesNotExist:
+            return Response({"error": "Not found"}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = InventorySerializer(item, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    # DELETE → remove item
+    def delete(self, request, pk):
+        try:
+            item = Inventory.objects.get(pk=pk)
+        except Inventory.DoesNotExist:
+            return Response({"error": "Not found"}, status=status.HTTP_404_NOT_FOUND)
+
+        item.delete()
+        return Response({"message": "Deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
 ```
 ---
 
