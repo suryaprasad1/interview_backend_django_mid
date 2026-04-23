@@ -17,6 +17,28 @@ from interview.inventory.serializers import (
 )
 
 
+#Paginator code
+from rest_framework.generics import ListAPIView
+from rest_framework.pagination import LimitOffsetPagination
+
+#from rest_framework.generics import ListAPIView
+#from .models import Inventory
+#from .serializers import InventorySerializer
+
+# Pagination Class
+class InventoryPagination(LimitOffsetPagination):
+    default_limit = 3
+    max_limit = 10
+
+
+# List API View
+class InventoryListView(ListAPIView):
+    queryset = Inventory.objects.all().order_by('id')
+    serializer_class = InventorySerializer
+    pagination_class = InventoryPagination
+
+
+
 class InventoryListCreateView(APIView):
     queryset = Inventory.objects.all()
     serializer_class = InventorySerializer
