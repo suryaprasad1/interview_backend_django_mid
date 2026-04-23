@@ -1,0 +1,76 @@
+*.conda
+*.history
+*__pycache__*
+*.vscode
+ANSWER.md
+*.env
+*reset_database.sh
+*.venv*
+
+# =====================
+# Python
+# =====================
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+*.pdb
+
+# Virtual environment
+venv/
+env/
+ENV/
+.venv/
+
+# =====================
+# Django
+# =====================
+*.log
+db.sqlite3
+/media/
+staticfiles/
+static/
+
+# Django secret key / env
+.env
+*.env
+
+# =====================
+# Docker
+# =====================
+docker-compose.override.yml
+
+# =====================
+# IDE / Editors
+# =====================
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# =====================
+# Testing / Coverage
+# =====================
+htmlcov/
+.coverage
+coverage.xml
+.pytest_cache/
+
+# =====================
+# Migrations (optional - use only in early dev)
+# If production, DO NOT ignore migrations
+# =====================
+# */migrations/*.pyc
+# */migrations/*.py
+
+# =====================
+# Logs
+# =====================
+*.log
+
+# =====================
+# OS files
+# =====================
+Thumbs.db
